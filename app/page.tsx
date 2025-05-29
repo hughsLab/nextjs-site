@@ -42,7 +42,7 @@ export default function Home() {
             className="underline duration-500 hover:text-zinc-300"
           >
             unkey.dev
-          </Link> test.
+          </Link> test update.
         </h2>
       </div>
     </div>
