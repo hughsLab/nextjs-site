@@ -1,15 +1,60 @@
 ---
 title: Matilda Chess
-description: Project description goes here
-date: "2023-04-01"
-url: https://planetfall.io
+description: A robotic chess project that uses a Pi5, servos, computer vision, and cloud networking to enable internet-based gameplay.
+date: "2025-04-01"
+url: https://your-project-url.com
 published: true
-  
 ---
 
+# Matilda – Robotic Chess Across the Internet
 
-[![](/planetfall.png)](https://planetfall.io)
+This project incorporates mechatronic control through a Pi5 and six servos, as shown in the high-level schematic below.  
+Internetworking enables a remote player to make moves against the robot, which are displayed via a Pi vision camera.  
+The chess engine uses Stockfish from Chess.com and object detection (YOLO) to "see" the board and pieces.
 
-Planetfall is a SaaS platform that provides global latency monitoring and synthetic monitoring for APIs. With over 60 regions to monitor from, customers can gain insights into the true performance of their API by checking latency from around the world. 
-Planetfall offers custom timeouts, threshold notifications, and real-time alerts for potential performance issues. Additionally, customers can create custom status pages to share with their customers, which can display availability and latency for every region. Planetfall offers a free tier that includes 100k checks per month and scales as customers grow. Overall, Planetfall helps customers stay in control of their API's performance, improve communication with their customers, and build trust.
+The motivation for this project is to one day play chess remotely with my daughter Florence. Roald Dahl's *Matilda* inspired me as a young child; I hope this inspires her in return.
 
+![Robot Arm Vision Setup](https://github.com/user-attachments/assets/9093c39c-3aeb-4760-bead-17b0a86b5c7f)
+
+The files attached are the starting point for this project.  
+Code and STL files – stay tuned...
+
+## Progression List To Date
+
+1. All items have been procured.  
+2. The robotic arm has been selected and altered from the original repository.  
+3. A 'here and there' network was established using an AWS cloud VM hosting Flask, which accepts moves and replies using the Stockfish engine.  
+4. The 3D printed arm has been completed and the prototype is being tested.  
+5. The Depth Camera D415 (Intel RealSense) has been procured. Research has begun into robotic axis and camera calibration methods for this apparatus.
+
+## Prototyping – Software
+
+A modern framework for data exchange and internetworking is **Flask**.  
+Flask handles web requests, allowing a remote user to interact with the chessboard via the internet.  
+
+By using `Flask-SocketIO`, I can implement WebSockets for real-time communication. This ensures instant move relaying between the remote player and the robot. Flask also interfaces with the robot control API to physically execute the move.
+
+The architecture involves Flask serving the web interface, receiving move commands, and passing them to the robot controller via WebSockets. The robot’s state and moves are streamed back to the player, ensuring synchronized play.
+
+<img src="image-1.png" alt="System Architecture" width="900" />
+
+As a starting point with Flask on the frontend (`index.html`), I used **Chessboard.js v1.0.0** to render an interactive chessboard with draggable pieces, styled with the default Wikipedia theme. It’s paired with **chess.js** for move validation and logic. Valid moves trigger a `/move` POST request to fetch the AI's reply, which is dynamically rendered.
+
+On the backend, `app.py` uses Flask to serve the AI opponent, powered by `python-chess` and **Stockfish**.  
+User moves are validated server-side and responded to using Stockfish’s best move logic. Communication is via JSON on the `/move` endpoint, supporting real-time gameplay with legal move enforcement.
+
+Once hosted at `http://127.0.0.1:5000`, it looks like this:
+
+<img src="image-2.png" alt="Chess Game Live UI" width="900" />
+
+Here's the current setup for the Stockfish engine on the Pi5:
+
+```python
+# Stockfish core usage, optimized for the Pi5 server
+# Hash table in megabytes for in-memory caching
+# Skill level: 0 (ELO ~1350), range is 0–20
+engine.configure({
+  "Threads": 1,
+  "Hash": 512,
+  "Skill Level": 0
+})
