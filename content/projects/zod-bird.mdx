@@ -1,172 +1,98 @@
 ---
-title: "Zod Bird"
-description: Zodbird is an e2e typed tinybird.co client library for typescript, leveraging zod for type safety and transformations
-repository: chronark/zod-bird
-date: "2023-05-21"
+title: Plant Classification – YOLO, Keras & Android App
+description: A multi-model plant classification project using YOLO, Keras, and a native Android application.
+date: "2025-06-05"
+url: https://your-project-url.com
 published: true
-  
+repository: "hughsLab/plant-classification"
 ---
 
-- typesafe
-- handles building the url params for you
-- easy transformation of resulting data
-- built in cache directives for nextjs
-- built in retry logic for ratelimited requests
+## Part 1 – Plant Classification: YOLO and Keras
 
+Plant classification is in conjunction with the `Genus-and-Species-Android-app` repository.  
+The plant data comes from the University of Glasgow, covering **10,001 classes** of different species and genus of plants.
 
-```ts
-import { Tinybird } from "@chronark/zod-bird";
-import { z } from "zod";
+Most classes contain only a few to several hundred data points, making training very difficult. Solutions such as data augmentation and web scraping have helped to some extent, though inconsistently.
 
-const tb = new Tinybird({ token: "token" });
+My current strategy involves breaking the dataset into many smaller models and exploring how these might be integrated into the final application – an area still under development.
 
-export const getEvents = tb.buildPipe({
-  pipe: "get_events__v1",
-  parameters: z.object({
-    tenantId: z.string(),
-  }),
-  data: z.object({
-    event: z.string(),
-    time: z.number().transform((t) => new Date(t)),
-  }),
-});
+---
 
+### Training Results
 
-const res = await getEvents({ tenantId: "chronark" })
+Choosing the correct model was one of the most difficult and time-consuming tasks.  
+Below are the results of a **Keras model** trained on the full dataset – typically requiring overnight runs.
 
-// res.data = {event: string, time: Date}[]
-```
+> After 60 epochs, the model achieved only **1.4% accuracy**, even with Dropout layers and data augmentation to reduce overfitting.  
+> This poor performance is largely due to the very limited data per class.
 
-## Install
+![Training Graph](https://github.com/user-attachments/assets/c2d0bd63-2e3e-4d6c-bdfc-89836a2e8e77)
 
-```
-npm i @chronark/zod-bird
-```
+Each 10% chunk of the data had variable quality. To normalize this, I created balanced subsets through a script – a method I termed **_class equity_** – to reduce hallucinations and improve result consistency.
 
+---
 
-## Ingesting Data
+### YOLO Results
 
-```ts
-// lib/tinybird.ts
-import { Tinybird } from "./client";
-import { z } from "zod";
+The YOLO model was able to correctly identify both **genus** and **species** with high accuracy.  
+The two images below show results from 10% of the total dataset trained for 50 epochs.  
+> For selected species, the model achieved nearly 100% accuracy.
 
-const tb = new Tinybird({ token: process.env.TINYBIRD_TOKEN! });
+<div style={{ display: "flex", gap: "12px" }}>
+  <img src="results.png" alt="YOLO result 1" width="45%" />
+  <img src="P_curve.png" alt="Precision curve" width="45%" />
+</div>
 
-export const publishEvent = tb.buildIngestEndpoint({
-  datasource: "events__v1",
-  event: z.object({
-    id: z.string(),
-    tenantId: z.string(),
-    channelId: z.string(),
-    time: z.number().int(),
-    event: z.string(),
-    content: z.string().optional().default(""),
-    metadata: z.string().optional().default(""),
-  }),
-});
-```
+---
 
-```ts
-// somewhere.ts
-import { publishEvent } from "./lib/tinybird";
+## Part 2 – Plant Classification Android Native Application
 
-await publishEvent({
-  id: "1",
-  tenantId: "1",
-  channelId: "1",
-  time: Date.now(),
-  event: "test",
-  content: "test",
-  metadata: JSON.stringify({ test: "test" }),
-});
-```
+This repository works in conjunction with the `YOLO-Detection (Plant-detection)` repo.  
+The `.tflite` model file is stored in the `assets` folder of the Android app.
 
+When running the app, users can scroll through the menu to select the correct model.  
+Because too many classes overwhelm YOLO (due to data insufficiency), I’ve grouped the classes into several hundred per model.
 
+> ❗ Currently, I can’t load multiple `.tflite` models with overlap. The app supports just one at a time.
 
-## Querying Endpoints
+![YOLO validation](https://github.com/user-attachments/assets/b0cd27e6-b08c-46fa-884b-1eb9949c0c90)
 
-```ts
-// lib/tinybird.ts
-import { Tinybird } from "./client";
-import { z } from "zod";
+---
 
-const tb = new Tinybird({ token: process.env.TINYBIRD_TOKEN! });
+### Overview
 
-export const getChannelActivity = tb.buildPipe({
-  pipe: "get_channel_activity__v1",
-  parameters: z.object({
-    tenantId: z.string(),
-    channelId: z.string().optional(),
-    start: z.number(),
-    end: z.number().optional(),
-    granularity: z.enum(["1m", "1h", "1d", "1w", "1M"]),
-  }),
-  data: z.object({
-    time: z.string().transform((t) => new Date(t).getTime()),
-    count: z
-      .number()
-      .nullable()
-      .optional()
-      .transform((v) => (typeof v === "number" ? v : 0)),
-  }),
-});
-```
+This application adapts code from:
 
-```ts
-// somewhere.ts
-import { getChannelActivity } from "./lib/tinybird";
+- [TensorFlow Lite Object Detection Android Demo](https://github.com/tensorflow/examples/tree/master/lite/examples/object_detection/android)
+- [Ultralytics Flutter demo app](https://github.com/ultralytics/yolo-flutter-app)
 
+---
 
-const res = await getChannelActivity({
-   tenantId: "1",
-   channelId: "1",
-   start: 123,
-   end: 1234,
-   granularity: "1h"
-})
+### Licenses
 
-```
-`res` is the response from the tinybird endpoint, but now fully typed and the data has been parsed according to the schema defined in `data`.
+- TensorFlow Lite demo is under the [Apache License 2.0](LICENSE-Apache2.0.txt)
+- Ultralytics app is under the [GNU GENERAL PUBLIC LICENSE](LICENSE)
 
-## Advanced
+> If you use this code, you must comply with **both licenses**.
 
-### Caching
+---
 
-You can add cache directives to each pipe.
+### Application Details
 
+This is a native camera app that continuously detects objects (bounding boxes and labels) in real-time using your device’s back camera.
 
-#### Disable caching (useful in Next.js where everything is cached by default)
+Supported detection models include:
 
-```ts
-tb.buildPipe({
-  pipe: "some_pipe__v1",
-  parameters: z.object({
-   hello: z.string()
-  }),
-  data: z.object({
-    response: z.string()
-  }),
-   opts: {
-      cache: "no-store" // <-------- Add this
-   };
-});
+- [MobileNet SSD](https://tfhub.dev/tensorflow/lite-model/ssd_mobilenet_v1/1/metadata/2)  
+- [EfficientDet Lite 0](https://tfhub.dev/tensorflow/lite-model/efficientdet/lite0/detection/metadata/1)  
+- [EfficientDet Lite 1](https://tfhub.dev/tensorflow/lite-model/efficientdet/lite1/detection/metadata/1)  
+- [EfficientDet Lite 2](https://tfhub.dev/tensorflow/lite-model/efficientdet/lite2/detection/metadata/1)  
+- [Ultralytics YOLO](https://docs.ultralytics.com/tasks/detect/#models)
 
-```
+> All models trained on the [COCO dataset](http://cocodataset.org/)
 
-#### Cache for 15 minutes
+---
 
-```ts
+_Android Native App – Work in Progress_
 
-tb.buildPipe({
-  pipe: "some_pipe__v1",
-  parameters: z.object({
-   hello: z.string()
-  }),
-  data: z.object({
-    response: z.string()
-  }),
-   opts: {
-      revalidate: 900 ;// <-------- Add this
-    };
-});
+[← Back](./)
