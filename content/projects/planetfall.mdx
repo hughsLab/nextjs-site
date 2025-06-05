@@ -36,7 +36,9 @@ By using `Flask-SocketIO`, I can implement WebSockets for real-time communicatio
 
 The architecture involves Flask serving the web interface, receiving move commands, and passing them to the robot controller via WebSockets. The robot’s state and moves are streamed back to the player, ensuring synchronized play.
 
-![System Architecture](/circuit.png)
+
+![System Architecture](https://github.com/hughsLab/my-github-page/blob/main/image-1.png?raw=true)
+
 
 As a starting point with Flask on the frontend (`index.html`), I used **Chessboard.js v1.0.0** to render an interactive chessboard with draggable pieces, styled with the default Wikipedia theme. It’s paired with **chess.js** for move validation and logic. Valid moves trigger a `/move` POST request to fetch the AI's reply, which is dynamically rendered.
 
@@ -45,7 +47,12 @@ User moves are validated server-side and responded to using Stockfish’s best m
 
 Once hosted at `http://127.0.0.1:5000`, it looks like this:
 
-![Chess Game Live UI](/image-2.png)
+
+![Chessgame](https://github.com/hughsLab/my-github-page/blob/main/image-2.png?raw=true)
+
+
+
+
 
 Here's the current setup for the Stockfish engine on the Pi5:
 
