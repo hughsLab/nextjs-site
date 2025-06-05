@@ -6,19 +6,19 @@ import { Analytics } from "./components/analytics";
 
 export const metadata: Metadata = {
   title: {
-    default: "chronark.com",
-    template: "%s | chronark.com",
+    default: "Hugh's Lab",
+    template: "%s | Hugh's Lab",
   },
-  description: "Co-founder of unkey.dev and founder of planetfall.io",
+  description: "Founder of Hugh's Lab.io",
   openGraph: {
-    title: "chronark.com",
+    title: "Hugh's Lab",
     description:
-      "Co-founder of unkey.dev and founder of planetfall.io",
-    url: "https://chronark.com",
-    siteName: "chronark.com",
+      "Founder of Hugh's Lab.io",
+    url: "https://nextjs-site-omega.vercel.app/projects/unkey",
+    siteName: "Hugh's Lab.io",
     images: [
       {
-        url: "https://chronark.com/og.png",
+        url: "https://nextjs-site-omega.vercel.app/projects/unkey",
         width: 1920,
         height: 1080,
       },
