@@ -21,13 +21,13 @@ export const Header: React.FC<Props> = ({ project, views }) => {
 	if (project.repository) {
 		links.push({
 			label: "GitHub",
-			href: `https://github.com/${project.repository}`,
+			href: `https://github.com/hughsLab/Denman-Voyage-YOLO-Detection`,
 		});
 	}
 	if (project.url) {
 		links.push({
 			label: "Website",
-			href: project.url,
+			href: 'https://hughslab.github.io/my-github-page/YOLO_tracking.html',
 		});
 	}
 	useEffect(() => {
