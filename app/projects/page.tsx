@@ -46,7 +46,7 @@ export default async function ProjectsPage() {
             Projects
           </h2>
           <p className="mt-4 text-zinc-400">
-            This is a collection of personal project
+            This is a collection of personal projects
           </p>
         </div>
         <div className="w-full h-px bg-zinc-800" />
