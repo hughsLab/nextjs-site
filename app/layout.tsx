@@ -14,11 +14,11 @@ export const metadata: Metadata = {
     title: "Hugh's Lab",
     description:
       "Founder of Hugh's Lab.io",
-    url: "https://nextjs-site-omega.vercel.app/projects/unkey",
+    url: "https://github.com/hughsLab",
     siteName: "Hugh's Lab.io",
     images: [
       {
-        url: "https://nextjs-site-omega.vercel.app/projects/unkey",
+        url: "https://github.com/hughsLab",
         width: 1920,
         height: 1080,
       },
