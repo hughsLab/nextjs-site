@@ -38,7 +38,7 @@ export default function Home() {
           I'm building projects and a start up my free time{" "}
           <Link
             target="_blank"
-            href="https://nextjs-site-omega.vercel.app/projects/unkey"
+            href="https://www.youtube.com/watch?v=4wN1Sxfbe3M&t=155s"
             className="underline duration-500 hover:text-zinc-300"
           >
             unkey.dev
