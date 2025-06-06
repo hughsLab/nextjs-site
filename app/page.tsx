@@ -42,7 +42,7 @@ export default function Home() {
             className="underline duration-500 hover:text-zinc-300"
           >
             Morphic
-          </Link> test update.
+          </Link> 
         </h2>
       </div>
     </div>
