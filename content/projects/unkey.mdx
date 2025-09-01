@@ -1,13 +1,47 @@
 ---
-title: unkey.dev
-description: Unkey is an open source API Key management solution. It allows you to create, manage and validate API Keys for your users. It’s built with security and speed in mind.
+title: Object Detection During the Denman Voyage 
+description: Captured web frame of CCTV from a recent voyage to the Antarctic. The object detection used was YOLO. The idea was to capture wildlife. It was a lot of fun testing!
 date: "2023-07-01"
 url: https://unkey.dev
 published: true
 repository: chronark/unkey
 ---
 
+![Ship Fun GIF](https://raw.githubusercontent.com/hughsLab/my-github-page/main/assets/film/ship_fun.gif)
 
-[![](https://unkey.dev/images/landing/app.png)](https://unkey.dev)
+Captured web frame of CCTV from a recent voyage to the Antarctic. The object detection used was YOLO. The idea was to capture wildlife. It was a lot of fun testing!
 
-Unkey is an open source API Key management solution. It allows you to create, manage and validate API Keys for your users. It’s built with security and speed in mind.
+---
+
+## Object Detection During the Denman Voyage (RSV Nuyina) - Progression
+
+This was a bit of fun I had conducting some object detection on Antarctic creatures.  
+The idea was to capture creatures of the wild as we passed them, identify them, then log the captures to a file.  
+It did not work out this way due to CCTV zoom capability and no control being a non-invasive coding project.  
+So the project rendered the results as seen below — still fun.  
+You can just make out myself on the heli deck!
+
+To run this project on any web-based CCTV, find the URL link via the Google Dev tools.
+
+### To use this repository
+
+1. Run `CCTV_Camera_Listen.py` to retrieve the camera frames and save them to your desired directory.  
+2. Run `YOLO_Detection_from_CCTV.py` from your desired directory. Considering I am just using a pre-trained model for this fun, the below is all that was required. YOLO certainly does make it easy!
+3. Finally, run `Video_from_YOLO_Detection.py`, which outputs the MP4 as seen below.
+
+
+
+
+```python
+# Load a pretrained YOLO11n model
+model = YOLO("yolo11n.pt")
+# Run inference on the source
+results = model(source)  # list of Results objects
+
+To run this project on any web-based CCTV, find the URL link via the Google Dev tools.
+
+
+
+_Completed project_
+
+

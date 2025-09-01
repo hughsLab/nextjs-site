@@ -1,26 +1,65 @@
 ---
-title: highstorm.app
-description: Simple, fast, open source custom event tracking
-date: "2023-05-01"
-url: https://highstorm.app
+title: Allsky Camera – Pi5 Project
+description: Building an all-sky camera with a Raspberry Pi 5 and custom Altium PCB.
+date: "2025-06-05"
+url: https://your-project-url.com
 published: true
-repository: "chronark/highstorm"
-  
+repository: "hughsLab/allsky-pi5"
 ---
 
+## Project Status Quo
 
- [![](https://highstorm.app/og.png)](https://highstorm.app) 
+I am building an all-sky camera using a Raspberry Pi 5 along with a custom-designed Altium PCB. Currently, the components exist in two separate repositories, but I will be combining them once I have the network up and running from prototype!
 
-Reduce the noise in your Slack workspace by consolidating all your event data into one place, filtering alerts by relevance, and customizing your alert settings to suit your needs.
+### Progression List to Date
+1. All items have been procured.  
+2. A repository has been selected based on hardware requirements and amended for sensor.  
+3. Sensor has been designed and ordered from JLPCB!  
+4. Test network and upload images!
 
-###### Consolidate Events
-Get all your event data in one place to reduce alert noise
+![Night Sky Capture](https://github.com/user-attachments/assets/7c9247cb-81ff-4be3-af64-e61accaadfd1)  
+*A capture from a night sky cam, but definitely not from Hounville.*
 
-###### Stay Focused
-Keep your Slack workspace focused on what's important
+---
 
-###### Customizable Settings
-Customize your alert settings to suit your unique needs
+## Requirements for Allsky Camera (Pi5)
 
-###### Clear Overview
-Get a clear overview of all your alerts in one place
+_Amended for SHT31 Temperature and Humidity Sensor_
+
+To run the Allsky software, you will need:
+
+- A Raspberry Pi Zero 2, Pi 2, Pi 3, Pi 4, Pi 5, or Le Potato.
+- Raspberry Pi OS (Bookworm 64-bit Desktop recommended).  
+  Other OSs like Ubuntu are **not supported**.  
+  __Buster support will be dropped in the next major release.__
+- A camera:
+  - Any ZWO camera sold before February 1, 2025,  
+  - Or one of the following:
+    - **Raspberry Pi:**
+      - HQ (IMX477)
+      - Module 3 (IMX708)
+      - Version 1 (OV5647) _(Not Recommended – 0.9s max exposure)_
+    - **Arducam:**
+      - 16 MP (IMX519)
+      - 64 MP (arducam_64mp)
+      - 462 (arducam-pivariety)
+      - 64 MP Owlsight (OV64a40)
+    - **Other:**
+      - Waveshare imx219-d160 (IMX290)
+      - OneInchEye IMX283 (IMX283)
+      - IMX290 60.00 fps
+
+This is the source code and primary credit for software:  
+👉 [on Instructables](http://www.instructables.com/id/Wireless-All-Sky-Camera/)
+
+---
+
+### Humidity and Temperature Sensor – SHT31
+
+This is a basic humidity and temperature sensor utilizing the SHT31 chip. The design is similar to that of Adafruit. This PCB is intended to work in conjunction with the all-sky camera.
+
+<img src="https://raw.githubusercontent.com/hughsLab/my-github-page/main/assets/images/pcb-met.png" alt="PCB Met sensor" width="250" />
+
+---
+
+_Work in progress_
